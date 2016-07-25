@@ -1,16 +1,56 @@
-var catOneImage = document.getElementById('cat-one');
-var catOneClickCount = 0;
-catOneImage.addEventListener('click', function(){
-    document.getElementById('cat-one-count').innerHTML = ++catOneClickCount;
-}, false);
+var cats = [
+    {
+        name: 'Fluffy',
+        clickCount: 0,
+        image: 'fluffy.jpg'
+    },
+    {
+        name: 'Chewie',
+        clickCount: 0,
+        image: 'chewie.jpg'
+    },
+    {
+        name: 'Foofy',
+        clickCount: 0,
+        image: 'foofy.jpg'
+    },
+    {
+        name: 'Jetske',
+        clickCount: 0,
+        image: 'jetske.jpg'
+    },
+    {
+        name: 'Yawnee',
+        clickCount: 0,
+        image: 'yawnee.jpg'
+    }
+];
 
-var catTwoImage = document.getElementById('cat-two');
-var catTwoClickCount = 0;
-catTwoImage.addEventListener('click', function(){
-    document.getElementById('cat-two-count').innerHTML = ++catTwoClickCount;
-}, false);
+for (var i = 0; i < cats.length; i++) {
+    var cat = cats[i];
 
-var names = ['Fluffy', 'Chewie'];
+    var nameListNode = document.createElement('li');
+    nameListNode.textContent = cat.name;
 
-document.getElementById('name-one').innerHTML = names[0];
-document.getElementById('name-two').innerHTML = names[1];
+    nameListNode.addEventListener('click', (function(catCopy) {
+        return function() {
+            var content = document.getElementById('content');
+            content.innerHTML  = '<h2>' + catCopy.name + '</h2>';
+            content.innerHTML += '<img src="' + catCopy.image + '" id="'
+                               + catCopy.image + '">';
+            content.innerHTML += '<br>Click count: <span id="' 
+                               + catCopy.name +'">' + catCopy.clickCount
+                               + '</span>';
+
+            
+            document.getElementById(catCopy.image).addEventListener('click',
+            function(){
+                document.getElementById(catCopy.name).innerHTML = 
+                    ++catCopy.clickCount;
+            }, false);
+        };
+    })(cat));
+
+    document.getElementById('name-list').appendChild(nameListNode);
+
+}
